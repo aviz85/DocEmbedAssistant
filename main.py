@@ -13,11 +13,8 @@ db = Database()
 
 def process_uploaded_file(file):
     try:
-        # Read text content
-        text_content = file.getvalue().decode('utf-8')
-        
         # Process document into chunks
-        chunks = doc_processor.process_text(text_content)
+        chunks = doc_processor.process_file(file)
         
         # Get embeddings for chunks
         with st.spinner('Generating embeddings...'):
@@ -39,7 +36,7 @@ def main():
     # Sidebar with file upload
     with st.sidebar:
         st.header('Upload Documents')
-        uploaded_file = st.file_uploader("Choose a text file", type=['txt'])
+        uploaded_file = st.file_uploader("Choose a file", type=['txt', 'pdf', 'docx'])
         
         if uploaded_file is not None:
             if st.button('Process Document'):
