@@ -52,11 +52,16 @@ def main():
     query = st.text_input('Enter your question:')
     
     if query:
-        with st.spinner('Searching...'):
-            results = search_service.search(query)
+        with st.spinner('Searching and generating answer...'):
+            response = search_service.search(query)
+            
+        # Display generated answer
+        st.header('Answer')
+        st.write(response['answer'])
         
-        st.header('Search Results')
-        for i, result in enumerate(results, 1):
+        # Display supporting search results
+        st.header('Supporting Documents')
+        for i, result in enumerate(response['results'], 1):
             with st.container():
                 st.markdown(f"**Result {i}** (Similarity: {result['similarity']}%)")
                 st.markdown(f"*From: {result['filename']}*")

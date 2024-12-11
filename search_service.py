@@ -1,10 +1,12 @@
 from database import Database
 from embedding_service import EmbeddingService
+from claude_service import ClaudeService
 
 class SearchService:
     def __init__(self):
         self.db = Database()
         self.embedding_service = EmbeddingService()
+        self.claude_service = ClaudeService()
 
     def search(self, query, limit=5):
         # Get query embedding
@@ -23,4 +25,10 @@ class SearchService:
                 'chunk_index': result['chunk_index']
             })
         
-        return formatted_results
+        # Generate answer using Claude
+        answer = self.claude_service.generate_response(query, formatted_results)
+        
+        return {
+            'results': formatted_results,
+            'answer': answer
+        }
