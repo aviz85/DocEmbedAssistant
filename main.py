@@ -4,6 +4,7 @@ from document_processor import DocumentProcessor
 from embedding_service import EmbeddingService
 from search_service import SearchService
 from database import Database
+from tts_service import TTSService
 
 # Initialize services
 doc_processor = DocumentProcessor()
@@ -57,7 +58,18 @@ def main():
             
         # Display generated answer
         st.header('Answer')
-        st.write(response['answer'])
+        answer_text = response['answer']
+        st.write(answer_text)
+        
+        # Add text-to-speech button
+        if st.button('🔊 Play Answer'):
+            with st.spinner('Generating speech...'):
+                tts = TTSService()
+                audio_data = tts.text_to_speech(answer_text)
+                if audio_data:
+                    st.audio(f"data:audio/mp3;base64,{audio_data}", format='audio/mp3')
+                else:
+                    st.error('Failed to generate speech')
         
         # Display supporting search results
         st.header('Supporting Documents')
