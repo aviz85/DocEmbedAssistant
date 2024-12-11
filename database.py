@@ -60,9 +60,9 @@ class Database:
         with self.conn.cursor() as cur:
             cur.execute("""
                 SELECT filename, content, chunk_index, 
-                       1 - (embedding <=> %s) as similarity
+                       1 - (embedding <=> %s::vector(1024)) as similarity
                 FROM documents
-                ORDER BY embedding <=> %s
+                ORDER BY embedding <=> %s::vector(1024)
                 LIMIT %s;
                 """,
                 (query_embedding.tolist(), query_embedding.tolist(), limit)
