@@ -5,7 +5,7 @@ import tempfile
 
 class TTSService:
     def __init__(self):
-        self.language = 'he'  # Hebrew language code
+        self.language = 'iw'  # Hebrew language code (iw is the legacy code for Hebrew)
         
     def text_to_speech(self, text: str) -> str:
         """Convert text to speech and return as base64 audio data"""
